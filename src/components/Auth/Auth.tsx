@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { Box, TextField, Button, Typography, Container, Paper, Alert } from '@mui/material';
 
@@ -33,7 +33,7 @@ export function Auth() {
     handleEmailConfirmation();
   }, []);
 
-  const handleAuth = async (e: React.FormEvent) => {
+  const handleAuth = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
@@ -67,12 +67,23 @@ export function Auth() {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ 
-      minHeight: '100vh',
+    <Box sx={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      bgcolor: '#121212',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      py: 4
+      minHeight: '100vh',
+      width: '100vw',
+      overflowY: 'auto'
+    }}>
+    <Container maxWidth="sm" sx={{ 
+      py: 4,
+      position: 'relative'
     }}>
       <Paper 
         elevation={3} 
@@ -81,14 +92,15 @@ export function Auth() {
           maxWidth: 'sm',
           p: 4,
           borderRadius: 2,
-          bgcolor: 'white'
+          bgcolor: '#1e1e1e',
+          color: 'white'
         }}
       >
         <Box sx={{ mb: 4, textAlign: 'center' }}>
           <Typography component="h1" variant="h4" gutterBottom>
             Course Planner
           </Typography>
-          <Typography variant="h5" color="text.secondary">
+          <Typography variant="h5" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
             {isSignUp ? 'Create an Account' : 'Welcome Back'}
           </Typography>
         </Box>
@@ -120,7 +132,29 @@ export function Auth() {
             autoComplete="email"
             autoFocus
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& input': {
+                  color: 'white',
+                },
+                '& fieldset': {
+                  borderColor: 'rgba(255, 255, 255, 0.23)',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#ba68c8',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#9c27b0',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(255, 255, 255, 0.7)',
+                '&.Mui-focused': {
+                  color: '#9c27b0',
+                },
+              },
+            }}
           />
           <TextField
             required
@@ -131,7 +165,29 @@ export function Auth() {
             id="password"
             autoComplete="current-password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                '& input': {
+                  color: 'white',
+                },
+                '& fieldset': {
+                  borderColor: 'rgba(255, 255, 255, 0.23)',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#ba68c8',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#9c27b0',
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: 'rgba(255, 255, 255, 0.7)',
+                '&.Mui-focused': {
+                  color: '#9c27b0',
+                },
+              },
+            }}
           />
           <Button
             type="submit"
@@ -139,7 +195,13 @@ export function Auth() {
             variant="contained"
             size="large"
             disabled={loading}
-            sx={{ mt: 2 }}
+            sx={{ 
+              mt: 2,
+              bgcolor: '#9c27b0',
+              '&:hover': {
+                bgcolor: '#7b1fa2'
+              }
+            }}
           >
             {loading ? 'Loading...' : isSignUp ? 'Sign Up' : 'Sign In'}
           </Button>
@@ -150,12 +212,19 @@ export function Auth() {
               setIsSignUp(!isSignUp);
               setMessage(null);
             }}
-            sx={{ mt: 1 }}
+            sx={{ 
+              mt: 1,
+              color: '#ba68c8',
+              '&:hover': {
+                color: '#9c27b0'
+              }
+            }}
           >
             {isSignUp ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
           </Button>
         </Box>
       </Paper>
     </Container>
+    </Box>
   );
 }
